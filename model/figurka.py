@@ -1,29 +1,26 @@
+# Základní třída pro všechny šachové figurky
+
 class Figurka:
-    def __init__(self, barva, typ):
-        self.__barva = barva
-        self._typ = typ
-        self._vektory = None
+    def __init__(self, nazev, barva, vektory_utoku, vektory):
+        self.nazev = nazev
+        self.vektory_utoku = vektory_utoku
+        self.barva = barva
+        self.vektory = vektory
+        self.pozice = None
 
+    def get_pozice(self, seznam):
+        # Vrátí aktuální pozici figurky
+        return self.pozice
 
-    def getSmery(self):
-        return self._vektory
+    def posun_figurky(self, seznam):
 
-    def getBarva(self):
-        return self.__barva
+        if seznam and len(seznam) == 2:
+            if self.pozice is not None:
+                novy_radek = self.pozice[0] + seznam[0]
+                novy_sloupec = self.pozice[1] + seznam[1]
+                self.pozice = [novy_radek, novy_sloupec]
+        return self.pozice
 
-    def getTyp(self):
-        return self._typ
-
-
-class Kral(Figurka):
-    def __init__(self, barva, typ):
-        super().__init__(barva, typ)
-        self._vektory = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-
-    def getSmery(self):
-        return self._vektory
-
-if __name__ == "__main__":
-    figurka = Figurka(1, False)
-    print(figurka.getSmer())
-    print(figurka.__barva)
+    def __str__(self):
+        barva_text = "bílá" if self.barva == 0 else "černá"
+        return f"{self.nazev} ({barva_text}) na {self.pozice}"
